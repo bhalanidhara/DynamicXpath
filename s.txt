@@ -1,0 +1,44 @@
+package com.Base;
+
+import java.io.File;
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import com.pages.LoginPage;
+import com.utilities.ReadPropertities;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+public class BaseClass {
+	
+public static WebDriver driver = null;
+	public LoginPage lp;
+	
+	 @BeforeMethod
+
+	public void setUp() {
+		String browseraName = ReadPropertities.property("Browser");
+
+		if (browseraName.equalsIgnoreCase("Chrome")) {
+		 driver = new ChromeDriver();
+
+		} else if (browseraName.equalsIgnoreCase("firefox")) {
+			driver= new FirefoxDriver();
+
+		} else if (browseraName.equalsIgnoreCase("ie")) {
+			driver = new InternetExplorerDriver();
+		}
+		String url = ReadPropertities.property("url");
+		driver.get(url);
+		lp = new LoginPage(driver);
+	}
+
+	 @AfterMethod
+	public void tearDown(){
+		driver.quit();
+	}
+
+}
